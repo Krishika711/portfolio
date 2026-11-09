@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Krishika Jain — Portfolio</title>
+
+<!--
+  PLACEHOLDER GUIDE — search this file for square brackets and replace:
+  [Your Name], [Your Role], [one-line description], skill chips, [Currently learning],
+  project blocks, [LinkedIn URL], [GitHub URL], [your@email.com]
+  Everything else (layout, colors, 3D scene) is ready to ship as-is.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --canvas:#F3F7F4;
+    --ink:#14201B;
+    --moss:#0F9B8E;
+    --horizon:#2D5FE0;
+    --mist:#DCE8E2;
+    --slate:#5C6B65;
+    --white:#FFFFFF;
+    --grad: linear-gradient(120deg, var(--moss), var(--horizon));
+    --maxw: 1180px;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--canvas);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:inherit; text-decoration:none;}
+
+  ::selection{background:var(--moss); color:var(--white);}
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--horizon);
+    outline-offset:3px;
+    border-radius:2px;
+  }
+
+  .wrap{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:50;
+    background:rgba(243,247,244,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--mist);
+  }
+  nav .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height:64px;
+  }
+  .logo{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:18px;
+    letter-spacing:-0.02em;
+  }
+  .logo span{color:var(--moss);}
+  .nav-links{
+    display:flex;
+    gap:28px;
+    list-style:none;
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+  }
+  .nav-links a{
+    color:var(--slate);
+    transition:color 0.2s ease;
+  }
+  .nav-links a:hover{color:var(--ink);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:100svh;
+    display:flex;
+    align-items:center;
+    position:relative;
+    padding-top:64px;
+    overflow:hidden;
+  }
+  .hero .wrap{
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    gap:40px;
+    align-items:center;
+    width:100%;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    color:var(--moss);
+    letter-spacing:0.04em;
+    margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:'';
+    width:8px; height:8px;
+    border-radius:50%;
+    background:var(--grad);
+  }
+  h1.name{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:clamp(40px, 6vw, 76px);
+    line-height:1.03;
+    letter-spacing:-0.02em;
+    margin-bottom:14px;
+  }
+  .role{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:500;
+    font-size:clamp(18px, 2vw, 24px);
+    background:var(--grad);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    margin-bottom:20px;
+  }
+  .hero-desc{
+    color:var(--slate);
+    font-size:17px;
+    max-width:46ch;
+    margin-bottom:32px;
+  }
+  .cta-row{
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    padding:13px 22px;
+    border-radius:8px;
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn-primary{
+    background:var(--ink);
+    color:var(--canvas);
+  }
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 8px 20px rgba(20,32,27,0.18);}
+  .btn-ghost{
+    border:1px solid var(--slate);
+    color:var(--ink);
+  }
+  .btn-ghost:hover{border-color:var(--ink); transform:translateY(-2px);}
+
+  .hero-canvas-wrap{
+    position:relative;
+    height:min(60vh, 520px);
+  }
+  #hero-canvas{
+    width:100%;
+    height:100%;
+    display:block;
+    cursor:grab;
+  }
+  .canvas-hint{
+    position:absolute;
+    bottom:6px;
+    left:50%;
+    transform:translateX(-50%);
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--slate);
+    opacity:0.7;
+    white-space:nowrap;
+  }
+
+  @media (max-width:880px){
+    .hero .wrap{grid-template-columns:1fr; gap:8px;}
+    .hero-canvas-wrap{height:320px; order:-1;}
+  }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:100px 0;}
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:16px;
+    margin-bottom:48px;
+  }
+  .section-num{
+    font-family:'JetBrains Mono', monospace;
+    color:var(--moss);
+    font-size:13px;
+  }
+  h2{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:clamp(28px, 3.4vw, 40px);
+    letter-spacing:-0.01em;
+  }
+
+  /* ---------- SKILLS ---------- */
+  .skills-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+    gap:28px;
+  }
+  .skill-group h3{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:15px;
+    color:var(--slate);
+    margin-bottom:14px;
+    font-weight:500;
+  }
+  .chip-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .chip{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12.5px;
+    background:var(--white);
+    border:1px solid var(--mist);
+    padding:7px 13px;
+    border-radius:7px;
+  }
+
+  /* ---------- LEARNING ---------- */
+  .learning-card{
+    background:var(--white);
+    border:1px solid var(--mist);
+    border-radius:14px;
+    padding:32px;
+    display:flex;
+    gap:24px;
+    align-items:flex-start;
+  }
+  .pulse-dot{
+    width:10px; height:10px;
+    margin-top:7px;
+    border-radius:50%;
+    background:var(--moss);
+    flex-shrink:0;
+    position:relative;
+  }
+  .pulse-dot::after{
+    content:'';
+    position:absolute;
+    inset:-6px;
+    border-radius:50%;
+    border:1.5px solid var(--moss);
+    animation:pulse 2.2s ease-out infinite;
+  }
+  @keyframes pulse{
+    0%{transform:scale(0.6); opacity:0.8;}
+    100%{transform:scale(1.8); opacity:0;}
+  }
+  .learning-list{
+    list-style:none;
+    margin-top:12px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .learning-list li{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13.5px;
+    color:var(--slate);
+  }
+  .learning-list li::before{
+    content:'→ ';
+    color:var(--horizon);
+  }
+
+  /* ---------- PROJECTS ---------- */
+  .project-card{
+    background:var(--white);
+    border:1px solid var(--mist);
+    border-radius:16px;
+    padding:32px;
+    margin-bottom:24px;
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    gap:24px;
+    align-items:start;
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .project-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 28px rgba(20,32,27,0.08);
+  }
+  .project-index{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:28px;
+    font-weight:700;
+    color:var(--mist);
+  }
+  .project-title{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:21px;
+    font-weight:700;
+    margin-bottom:8px;
+  }
+  .project-desc{
+    color:var(--slate);
+    font-size:15px;
+    margin-bottom:14px;
+    max-width:60ch;
+  }
+  .tech-row{display:flex; flex-wrap:wrap; gap:8px;}
+  .tech-tag{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11.5px;
+    background:var(--canvas);
+    border:1px solid var(--mist);
+    padding:5px 10px;
+    border-radius:6px;
+    color:var(--slate);
+  }
+  .project-link{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    color:var(--horizon);
+    white-space:nowrap;
+    border-bottom:1px solid transparent;
+  }
+  .project-link:hover{border-color:var(--horizon);}
+
+  @media (max-width:640px){
+    .project-card{grid-template-columns:1fr; gap:12px;}
+    .project-index{display:none;}
+  }
+
+  /* ---------- CONTACT ---------- */
+  .contact{
+    background:var(--ink);
+    color:var(--canvas);
+    border-radius:24px;
+    margin:0 24px;
+    padding:72px 48px;
+    text-align:center;
+  }
+  .contact h2{color:var(--canvas);}
+  .contact-sub{
+    color:#9CB0A8;
+    margin:14px 0 36px;
+    font-size:16px;
+  }
+  .email-link{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:clamp(22px, 4vw, 34px);
+    background:var(--grad);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    display:inline-block;
+    margin-bottom:40px;
+    word-break:break-all;
+  }
+  .social-row{
+    display:flex;
+    justify-content:center;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .social-link{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    border:1px solid #2C3A33;
+    padding:12px 22px;
+    border-radius:8px;
+    transition:border-color 0.2s ease, background 0.2s ease;
+  }
+  .social-link:hover{
+    border-color:var(--moss);
+    background:rgba(15,155,142,0.1);
+  }
+
+  footer{
+    text-align:center;
+    padding:36px 0 28px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--slate);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .pulse-dot::after{animation:none;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo">Krishika<span>.</span>Jain</div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#learning">Learning</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ---------- HERO ---------- -->
+<section class="hero" id="home">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">OPEN TO INTERNSHIPS</div>
+      <h1 class="name">Krishika Jain</h1>
+      <div class="role">B.Tech CSE Student · VIPS-TC, GGSIPU · 2nd Year</div>
+      <p class="hero-desc">I'm a second-year B.Tech CSE student who builds things that solve real problems — from AI-powered wellness tools to legal compliance scanners. Currently deep in AWS cloud and React.</p>
+      <div class="cta-row">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-canvas-wrap">
+      <canvas id="hero-canvas"></canvas>
+      <div class="canvas-hint">move your cursor</div>
+    </div>
+  </div>
+</section>
+
+<!-- ---------- SKILLS ---------- -->
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <h2>What I Work With</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h3>Languages</h3>
+        <div class="chip-row">
+          <span class="chip">Python</span>
+          <span class="chip">C</span>
+          <span class="chip">JavaScript</span>
+          <span class="chip">HTML/CSS</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Frameworks & Libraries</h3>
+        <div class="chip-row">
+          <span class="chip">React</span>
+          <span class="chip">Three.js</span>
+          <span class="chip">Express.js</span>
+          <span class="chip">Vite</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Tools &amp; Platforms</h3>
+        <div class="chip-row">
+          <span class="chip">Git</span>
+          <span class="chip">GitHub</span>
+          <span class="chip">Figma</span>
+          <span class="chip">VS Code</span>
+          <span class="chip">Netlify</span>
+          <span class="chip">Vercel</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Cloud</h3>
+        <div class="chip-row">
+          <span class="chip">AWS Amplify</span>
+          <span class="chip">AWS Lambda</span>
+          <span class="chip">DynamoDB</span>
+          <span class="chip">S3</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ---------- LEARNING ---------- -->
+<section id="learning">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h2>Currently Learning</h2>
+    </div>
+    <div class="learning-card">
+      <div class="pulse-dot"></div>
+      <div>
+        <p style="color:var(--slate); font-size:15px;">Two active tracks right now — building real products and the infra behind them.</p>
+        <ul class="learning-list">
+          <li>AWS cloud architecture (Amplify, Cognito, Lambda, DynamoDB, SNS)</li>
+          <li>Data Structures &amp; Algorithms in C++</li>
+          <li>AI/ML integration in production React apps</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ---------- PROJECTS ---------- -->
+<section id="projects">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <h2>Things I've Built</h2>
+    </div>
+
+    <div class="project-card">
+      <div class="project-index">01</div>
+      <div>
+        <div class="project-title">MindBridge</div>
+        <p class="project-desc">An AI-powered mental wellness early warning system for Indian college students. Detects distress patterns through mood tracking, Hinglish AI chat, and a 3D brain visualization — and triggers emergency alerts before a crisis escalates.</p>
+        <div class="tech-row">
+          <span class="tech-tag">React 18</span>
+          <span class="tech-tag">Vite</span>
+          <span class="tech-tag">Three.js</span>
+          <span class="tech-tag">EmailJS</span>
+          <span class="tech-tag">AWS</span>
+          <span class="tech-tag">Vercel</span>
+        </div>
+      </div>
+      <a href="https://mindbridge-gray.vercel.app" class="live link" target="_blank" rel="noopener">Live Demo</a>
+    </div>
+
+    <div class="project-card">
+      <div class="project-index">02</div>
+      <div>
+        <div class="project-title">ConsentClear</div>
+        <p class="project-desc">A DPDP Act 2023 compliance scanner for Indian startups. Paste any privacy policy URL and get a verdict in 30 seconds — exact clause violations, risk score (LOW to CRITICAL), and the specific fix needed. Also supports GDPR and CCPA.</p>
+        <div class="tech-row">
+          <span class="tech-tag">React</span>
+          <span class="tech-tag">Express.js</span>
+          <span class="tech-tag">Groq LLaMA 3.1</span>
+          <span class="tech-tag">Railway</span>
+          <span class="tech-tag">Vercel</span>
+        </div>
+      </div>
+      <a href="https://consentclear-lilac.vercel.app" class="live link" target="_blank" rel="noopener">Live Demo →</a>
+    </div>
+
+    <div class="project-card">
+      <div class="project-index">03</div>
+      <div>
+        <div class="project-title">ParkEZ</div>
+        <p class="project-desc">An AI-powered smart parking app that predicts spot availability before you arrive. Uses behavioral patterns and city event data to give drivers proactive nudges — cutting time spent circling and reducing urban traffic.</p>
+        <div class="tech-row">
+          <span class="tech-tag">UI/UX Design</span>
+          <span class="tech-tag">Figma</span>
+          <span class="tech-tag">Prototype</span>
+        </div>
+      </div>
+      <a href="https://www.figma.com/proto/keMUqlvwqNdYEPvdvOkvkP/parkez?node-id=1-3&p=f&t=QoXZ1SPE22OPfvjA-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A3" class="project-link" target="_blank" rel="noopener">View Prototype →</a>
+    </div>
+
+    <div class="project-card">
+      <div class="project-index">04</div>
+      <div>
+        <div class="project-title">Samvedna</div>
+        <p class="project-desc">AI-based predictive personnel stress and welfare monitoring for uniformed forces.</p>
+        <div class="tech-row">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">JavaScript</span>
+          <span class="tech-tag">Shell</span>
+        </div>
+      </div>
+      <a href="https://github.com/Krishika711/Samvedna" class="project-link" target="_blank" rel="noopener">GitHub →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ---------- CONTACT ---------- -->
+<section id="contact">
+  <div class="contact">
+    <h2>Let's Connect</h2>
+    <p class="contact-sub">Open to opportunities, collaborations, or just a conversation.</p>
+    <a href="mailto:krishikajain120707@gmail.com" class="email-link">krishikajain120707@gmail.com</a>
+    <div class="social-row">
+      <a href="https://www.linkedin.com/in/krishika-jain-9462b9376/" class="social-link" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://github.com/Krishika711" class="social-link" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="mailto:krishikajain120707@gmail.com" class="social-link">Email ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer>© <span id="year"></span> Krishika Jain. Built with care.</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  (function(){
+    const canvas = document.getElementById('hero-canvas');
+    if(!canvas || !window.THREE){ return; }
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+    camera.position.z = 6;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+    // Low-poly geometric mesh, gradient vertex colors (teal -> blue)
+    const geometry = new THREE.IcosahedronGeometry(1.8, 1);
+    const colorA = new THREE.Color('#0F9B8E');
+    const colorB = new THREE.Color('#2D5FE0');
+    const posAttr = geometry.attributes.position;
+    const colors = [];
+    for (let i = 0; i < posAttr.count; i++) {
+      const y = posAttr.getY(i);
+      const t = (y + 1.8) / 3.6;
+      const c = colorA.clone().lerp(colorB, Math.min(Math.max(t, 0), 1));
+      colors.push(c.r, c.g, c.b);
+    }
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+    const material = new THREE.MeshStandardMaterial({
+      vertexColors: true,
+      flatShading: true,
+      roughness: 0.4,
+      metalness: 0.08,
+    });
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+
+    // Faint edge lines for crispness
+    const edgeGeo = new THREE.EdgesGeometry(geometry);
+    const edgeMat = new THREE.LineBasicMaterial({ color: '#14201B', transparent: true, opacity: 0.08 });
+    mesh.add(new THREE.LineSegments(edgeGeo, edgeMat));
+
+    scene.add(new THREE.AmbientLight('#ffffff', 0.7));
+    const dirLight = new THREE.DirectionalLight('#ffffff', 0.9);
+    dirLight.position.set(3, 4, 5);
+    scene.add(dirLight);
+    const accentLight = new THREE.PointLight('#2D5FE0', 0.7);
+    accentLight.position.set(-4, -2, 3);
+    scene.add(accentLight);
+
+    let targetRotX = 0.3, targetRotY = -0.3;
+    let currentRotX = 0.3, currentRotY = -0.3;
+    let lastInteract = 0;
+    let dragging = false;
+
+    function setTargetFromPoint(clientX, clientY) {
+      const rect = canvas.getBoundingClientRect();
+      const nx = ((clientX - rect.left) / rect.width) * 2 - 1;
+      const ny = ((clientY - rect.top) / rect.height) * 2 - 1;
+      targetRotY = -0.3 + nx * 0.7;
+      targetRotX = 0.3 + ny * 0.45;
+      lastInteract = Date.now();
+    }
+
+    window.addEventListener('mousemove', (e) => setTargetFromPoint(e.clientX, e.clientY));
+    canvas.addEventListener('touchstart', () => { dragging = true; canvas.style.cursor = 'grabbing'; }, { passive: true });
+    window.addEventListener('touchend', () => { dragging = false; canvas.style.cursor = 'grab'; });
+    canvas.addEventListener('touchmove', (e) => {
+      if (e.touches[0]) setTargetFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: true });
+
+    function resize() {
+      const w = canvas.clientWidth, h = canvas.clientHeight;
+      if (w === 0 || h === 0) return;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h, false);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      if (!reduceMotion) {
+        const idle = Date.now() - lastInteract > 2200;
+        if (idle) targetRotY += 0.003;
+        currentRotX += (targetRotX - currentRotX) * 0.06;
+        currentRotY += (targetRotY - currentRotY) * 0.06;
+        mesh.rotation.x = currentRotX;
+        mesh.rotation.y = currentRotY;
+      }
+      renderer.render(scene, camera);
+    }
+    animate();
+  })();
+</script>
+
+</body>
+</html>
